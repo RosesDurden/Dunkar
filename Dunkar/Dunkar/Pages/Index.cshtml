@@ -1,10 +1,226 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Accueil";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container-fluid">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="bg-gradient text-white text-center py-5 rounded" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <div class="container">
+                    <h1 class="display-3 fw-bold mb-3">🏀 Bienvenue dans Charazay</h1>
+                    <p class="lead fs-4 mb-4">Le jeu de gestion de basketball le plus immersif</p>
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <p class="fs-5">Gérez votre équipe, recrutez les meilleurs joueurs, développez vos talents et menez votre franchise vers la gloire !</p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <a asp-page="/Dashboard/Index" class="btn btn-light btn-lg me-3">
+                            <i class="bi bi-speedometer2"></i> Commencer à jouer
+                        </a>
+                        <a asp-page="/Teams/Index" class="btn btn-outline-light btn-lg">
+                            <i class="bi bi-people-fill"></i> Voir les équipes
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fonctionnalités principales -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="display-5 fw-bold">Fonctionnalités du jeu</h2>
+            <p class="lead text-muted">Tout ce dont vous avez besoin pour gérer votre franchise</p>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-people-fill display-4 text-primary"></i>
+                    </div>
+                    <h4 class="card-title">Gestion d'équipe</h4>
+                    <p class="card-text">Recrutez, formez et gérez jusqu'à 15 joueurs. Développez leurs compétences et créez la chimie parfaite sur le terrain.</p>
+                    <a asp-page="/Teams/Index" class="btn btn-outline-primary">Explorer les équipes</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-graph-up display-4 text-success"></i>
+                    </div>
+                    <h4 class="card-title">Statistiques avancées</h4>
+                    <p class="card-text">Analysez les performances en détail. Suivez les progrès individuels et collectifs avec des métriques professionnelles.</p>
+                    <a asp-page="/Players/Index" class="btn btn-outline-success">Voir les joueurs</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-trophy display-4 text-warning"></i>
+                    </div>
+                    <h4 class="card-title">Compétitions</h4>
+                    <p class="card-text">Participez à la saison régulière, aux playoffs et aux coupes. Affrontez les meilleures équipes pour décrocher le titre.</p>
+                    <a asp-page="/Games/Index" class="btn btn-outline-warning">Calendrier des matchs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistiques rapides du jeu -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-transparent">
+                    <h4 class="mb-0"><i class="bi bi-bar-chart"></i> État actuel du championnat</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-3">
+                            <div class="p-3">
+                                <h3 class="text-primary mb-1">@Model.TotalTeams</h3>
+                                <p class="text-muted mb-0">Équipes actives</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3">
+                                <h3 class="text-success mb-1">@Model.TotalPlayers</h3>
+                                <p class="text-muted mb-0">Joueurs enregistrés</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3">
+                                <h3 class="text-info mb-1">@Model.GamesPlayed</h3>
+                                <p class="text-muted mb-0">Matchs joués</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3">
+                                <h3 class="text-warning mb-1">Saison @Model.CurrentSeason</h3>
+                                <p class="text-muted mb-0">En cours</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top joueurs -->
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-transparent">
+                    <h5 class="mb-0"><i class="bi bi-star"></i> Top marqueurs</h5>
+                </div>
+                <div class="card-body">
+                    @foreach (var player in Model.TopScorers.Take(5))
+                    {
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="badge rounded-pill me-2" style="background-color: @player.Equipe?.CouleurPrincipale;">
+                                    @player.Equipe?.Abreviation
+                                </div>
+                                <div>
+                                    <strong>@player.Prenom @player.Nom</strong><br>
+                                    <small class="text-muted">@player.PostePrincipal</small>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <strong class="fs-5">@player.Stats?.PointsParMatch.ToString("F1")</strong><br>
+                                <small class="text-muted">pts/match</small>
+                            </div>
+                        </div>
+                    }
+                    <div class="text-center mt-3">
+                        <a asp-page="/Players/Stats" class="btn btn-outline-primary btn-sm">Voir toutes les stats</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-transparent">
+                    <h5 class="mb-0"><i class="bi bi-calendar-event"></i> Prochains matchs</h5>
+                </div>
+                <div class="card-body">
+                    @foreach (var game in Model.UpcomingGames.Take(5))
+                    {
+                        <div class="d-flex justify-content-between align-items-center mb-3 p-2 border rounded">
+                            <div>
+                                <small class="text-muted">@game.DateMatch.ToString("dd/MM HH:mm")</small><br>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge rounded-pill me-1" style="background-color: @game.EquipeDomicile.CouleurPrincipale;">
+                                        @game.EquipeDomicile.Abreviation
+                                    </span>
+                                    <strong class="mx-2">vs</strong>
+                                    <span class="badge rounded-pill" style="background-color: @game.EquipeExterieur.CouleurPrincipale;">
+                                        @game.EquipeExterieur.Abreviation
+                                    </span>
+                                </div>
+                            </div>
+                            <a asp-page="/Games/Details" asp-route-id="@game.Id" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        </div>
+                    }
+                    <div class="text-center mt-3">
+                        <a asp-page="/Games/Calendar" class="btn btn-outline-primary btn-sm">Voir le calendrier</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to action -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm bg-light">
+                <div class="card-body text-center py-5">
+                    <h3 class="mb-3">Prêt à devenir le meilleur manager ?</h3>
+                    <p class="lead mb-4">Rejoignez des milliers de managers et construisez votre dynastie basketball !</p>
+                    <div>
+                        <a asp-page="/Dashboard/Index" class="btn btn-primary btn-lg me-3">
+                            <i class="bi bi-play-fill"></i> Commencer maintenant
+                        </a>
+                        <a asp-page="/Teams/Create" class="btn btn-outline-primary btn-lg">
+                            <i class="bi bi-plus-lg"></i> Créer mon équipe
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+    .bg-gradient {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .card {
+        transition: all 0.3s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+        }
+
+    .display-4 {
+        font-size: 3rem;
+    }
+</style>

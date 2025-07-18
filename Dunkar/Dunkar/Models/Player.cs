@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Dunkar.Models
 {
-    / Modèle pour un joueur de basket
+    // Modèle pour un joueur de basket
     public class Player
     {
         public int Id { get; set; }

@@ -1,3 +1,5 @@
+using Dunkar.Services;
+
 namespace Dunkar
 {
     public class Program
@@ -8,6 +10,9 @@ namespace Dunkar
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+
+            // Enregistrer le service de données mockées comme singleton
+            builder.Services.AddSingleton<MockDataService>();
 
             var app = builder.Build();
 
